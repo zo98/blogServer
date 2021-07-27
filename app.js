@@ -1,13 +1,13 @@
 const Koa = require("koa");
 const app = new Koa();
-const cors = require("koa2-cors");
+// const cors = require("koa2-cors");
 const koa_body = require("koa-body");
 const articleRouter = require("./router/articleRouter");
 const classifyRouter = require("./router/classifyRouter");
 const userRouter = require("./router/userRouter");
 
 // 跨域
-app.use(cors());
+// app.use(cors());
 
 app.use(koa_body());
 

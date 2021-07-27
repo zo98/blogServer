@@ -10,9 +10,19 @@ module.exports = {
           }
         );
       } else {
-        query("SELECT * FROM classify", (err, res, fields) => {
-          resolve([err, res]);
-        });
+        const { currentPage, pageSize, keyWords } = params;
+        const offset = (currentPage - 1) * pageSize;
+        query(
+          `SELECT * FROM classify WHERE classify_name LIKE '%${keyWords}%'`,
+          (err, res, fields) => {
+            let total = 0;
+            if (res) {
+              total = res.length;
+              res = res.slice(offset, offset + pageSize);
+            }
+            resolve([err, res, total]);
+          }
+        );
       }
     });
   },

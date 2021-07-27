@@ -3,11 +3,13 @@ module.exports = {
   initClassify(connection) {
     // create_time - 创建时间
     // name - 分类名称
+    // ON UPDATE CURRENT_TIMESTAMP mysql5.6以上才能使用
     connection.query(
       `CREATE TABLE classify(
       id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
       classify_name VARCHAR(80) NOT NULL,
-      create_time TIMESTAMP DEFAULT NOW()
+      create_time TIMESTAMP DEFAULT NOW(),
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {
         if (error) {

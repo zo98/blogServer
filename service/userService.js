@@ -28,11 +28,11 @@ module.exports = {
             msg: "登录成功",
           };
         } else {
-          return { code: 1, data, msg: "账户或密码不正确" };
+          return { code: 0, msg: "账户或密码不正确" };
         }
       }
     } else {
-      return { code: 1, data, msg: "账户或密码为空" };
+      return { code: 0, msg: "账户或密码为空" };
     }
   },
 };
