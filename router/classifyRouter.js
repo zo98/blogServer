@@ -6,7 +6,6 @@ const { getClassify } = require("../service/classifyService");
 router.prefix("/api/classify");
 
 router.get("/getClassify", async (ctx, next) => {
-  console.log("query", ctx.query);
   ctx.body = await getClassify(ctx.query);
 });
 
