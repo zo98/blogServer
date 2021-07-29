@@ -1,11 +1,14 @@
-Get http://localhost:8000/api/classify/getClassify
+### get api
+GET  http://localhost:8000/api/classify/getClassify
 ?pageSize=10
-&currentPage=2
-&keyWords=读
+&currentPage=1
 
+
+### update and add api
+POST  http://localhost:8000/api/classify/updateClassify
 Content-Type: application/json;charset=utf-8
-# query{
-#   pageSize:Number,
-#   currentPage:Number,
-#   keyWords:String
-# }
+
+{
+  "id":"1",
+  "name":"心情随笔-11111"
+}

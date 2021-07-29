@@ -4,10 +4,14 @@ const { initArticle, initClassify, initUsers } = require("./initDB");
 
 const pool = mysql.createPool(dbConfig);
 
-function query(sql, callback) {
-  pool.getConnection((err, connection) => {
-    connection.query(sql, callback);
-    connection.release();
+function query(sql) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      connection.query(sql, (err, res, fields) => {
+        resolve([err, res, fields]);
+      });
+      connection.release();
+    });
   });
 }
 

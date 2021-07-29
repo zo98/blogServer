@@ -1,5 +1,5 @@
-const { getClassify } = require("../dao/classifyDao");
-
+const { getClassify, updateClassify } = require("../dao/classifyDao");
+const { isValid } = require("../utils/index");
 module.exports = {
   async getClassify(params = {}) {
     params = {
@@ -8,7 +8,6 @@ module.exports = {
       keyWords: "",
       ...params,
     };
-    console.log("params", params);
     let { pageSize, currentPage } = params;
     currentPage = Number(currentPage);
     pageSize = Number(pageSize);
@@ -29,5 +28,26 @@ module.exports = {
     } else {
       return { code: 0, msg: err.sqlMessage };
     }
+  },
+  async updateClassify(params) {
+    const { id, name } = params;
+    if (isValid(id) && isValid(name)) {
+      const [err, res] = await updateClassify(params);
+      if (!err && res.affectedRows) {
+        return { code: 1, msg: "update success" };
+      } else {
+        return { code: 0, msg: "update fail" };
+      }
+    }
+
+    if (isValid(name)) {
+      const [err, res] = await updateClassify(params);
+      if (!err && res.affectedRows) {
+        return { code: 1, msg: "added success" };
+      } else {
+        return { code: 0, msg: "added fail" };
+      }
+    }
+    return { code: 0, msg: "fail,invalid value" };
   },
 };

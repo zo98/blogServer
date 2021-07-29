@@ -2,20 +2,18 @@ const query = require("../db/index");
 module.exports = {
   getClassify(params) {
     const { id } = params;
-    return new Promise((resolve, reject) => {
-      if (id) {
-        query(`SELECT * FROM classify WHERE id=${id}`, (err, res, fields) => {
-          resolve([err, res]);
-        });
-      } else {
-        const { keyWords } = params;
-        query(
-          `SELECT * FROM classify WHERE classify_name LIKE '%${keyWords}%'`,
-          (err, res, fields) => {
-            resolve([err, res]);
-          }
-        );
-      }
-    });
+    if (id) {
+      return query(`SELECT * FROM classify WHERE id=${id}`);
+    }
+    const { keyWords } = params;
+    return query(`SELECT * FROM classify WHERE name LIKE '%${keyWords}%'`);
+  },
+  updateClassify(params) {
+    const { id, name } = params;
+    if (id) {
+      return query(`UPDATE classify SET name='${name}' WHERE id='${id}'`);
+    }
+    return query(`INSERT INTO classify ( name )
+    VALUES('${name}')`);
   },
 };

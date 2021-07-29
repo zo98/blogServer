@@ -7,7 +7,7 @@ module.exports = {
     connection.query(
       `CREATE TABLE classify(
       id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-      classify_name VARCHAR(80) NOT NULL,
+      name VARCHAR(80) NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(),
       update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) AUTO_INCREMENT = 0 ;`,
@@ -24,11 +24,11 @@ module.exports = {
     connection.query(
       `CREATE TABLE article(
       id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-      author INT NOT NULL,
+      author_id INT NOT NULL,
       title VARCHAR(100) NOT NULL,
       content LONGTEXT,
       preview_content VARCHAR(100),
-      classify INT NOT NULL,
+      classify_id INT NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(), 
       update_time TIMESTAMP DEFAULT NOW()
     ) AUTO_INCREMENT = 0 ;`,

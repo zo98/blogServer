@@ -1,7 +1,7 @@
 const { login } = require("../dao/userDao");
 const jsonwebtoken = require("jsonwebtoken");
 const { SECRET } = require("../config/index");
-const { hashSync, compareSync } = require("bcryptjs");
+const { compareSync } = require("bcryptjs");
 module.exports = {
   async login(params) {
     if (params.account && params.password) {
@@ -11,18 +11,14 @@ module.exports = {
       } else if (data.length) {
         const isSame = compareSync(params.password, data[0].password);
         if (isSame) {
-          const token = jsonwebtoken.sign(
-            { account: data[0].account, nike_name: data[0].nike_name },
-            SECRET,
-            {
-              expiresIn: "6h",
-            }
-          );
+          const token = jsonwebtoken.sign({ ...data[0] }, SECRET, {
+            expiresIn: "6h",
+          });
           return {
             code: 1,
             data: {
               account: data[0].account,
-              token: token,
+              token: "Bear " + token,
               nick_name: data[0].nick_name,
             },
             msg: "登录成功",
