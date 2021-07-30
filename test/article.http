@@ -1,7 +1,16 @@
-### get all article
+### get article
 GET  http://localhost:8000/api/article/getArticle
+?title=test
+&currentPage=2
+&pageSize=20
 
 ### update and add 
 POST http://localhost:8000/api/article/updateArticle
 Content-Type: application/json;charset=utf-8
-Authorization:Bear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmlja19uYW1lIjoiYWRtaW4iLCJhY2NvdW50IjoiYWRtaW4iLCJwYXNzd29yZCI6IiQyYSQxMCRtZmlSQnl0b2RnTWt1bmRsU2hWZ3hPYkU1QVYxNmFrZ25qWXFmMW94R0tBaW03SWg1NlJvUyIsImNyZWF0ZV90aW1lIjoiMjAyMS0wNy0yN1QwNzoyNjoxNi4wMDBaIiwiaWF0IjoxNjI3NTUyOTAwLCJleHAiOjE2Mjc1NzQ1MDB9.8Ub20XRLXna5mjG2212jnauD2vSjKvH0rDvHvfVqp9o
+Authorization:Bear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmlja19uYW1lIjoiYWRtaW4iLCJhY2NvdW50IjoiYWRtaW4iLCJwYXNzd29yZCI6IiQyYSQxMCRtZmlSQnl0b2RnTWt1bmRsU2hWZ3hPYkU1QVYxNmFrZ25qWXFmMW94R0tBaW03SWg1NlJvUyIsImNyZWF0ZV90aW1lIjoiMjAyMS0wNy0yN1QwNzoyNjoxNi4wMDBaIiwiaWF0IjoxNjI3NjA2NDc0LCJleHAiOjE2Mjc2MjgwNzR9.3ibzlIqdVZwEPJDiqpY02UdmuqhIChe2zPG_whJVKWg
+
+{
+  "title":"test",
+  "content":"<p>hello</p>/n<p>hello</p>",
+  "classify_id":"1"
+}

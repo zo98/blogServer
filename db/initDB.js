@@ -30,7 +30,7 @@ module.exports = {
       preview_content VARCHAR(100),
       classify_id INT NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(), 
-      update_time TIMESTAMP DEFAULT NOW()
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {
         if (error) {
@@ -48,7 +48,8 @@ module.exports = {
       nick_name VARCHAR(80),
       account VARCHAR(80) NOT NULL,
       password VARCHAR(80) NOT NULL,
-      create_time TIMESTAMP DEFAULT NOW()
+      create_time TIMESTAMP DEFAULT NOW(),
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {
         if (error) {

@@ -4,29 +4,84 @@ const jsonwebtoken = require("jsonwebtoken");
 const { SECRET } = require("../config/index");
 module.exports = {
   async getArticle(params = {}) {
-    const [err, data] = await getArticle(params);
-    if (!err) {
-      return { code: 1, data, msg: "success" };
+    params = {
+      pageSize: 10,
+      currentPage: 1,
+      title: "",
+      ...params,
+    };
+    let temp;
+    let { pageSize, currentPage, title, id } = params;
+    pageSize = Number(pageSize);
+    currentPage = Number(currentPage);
+    if (isValid(id)) {
+      temp = { id };
     } else {
-      return { code: 0, data, msg: err.sqlMessage };
+      temp = { title };
+    }
+    const [err, res] = await getArticle(temp);
+
+    if (!err) {
+      if (isValid(id)) {
+        return { code: 1, data: res, msg: "success" };
+      } else {
+        const total = res.length;
+
+        if (currentPage >= Math.ceil(total / pageSize)) {
+          currentPage = Math.ceil(total / pageSize);
+        } else if (currentPage < 0) {
+          currentPage = 1;
+        }
+        const offset = (currentPage - 1) * pageSize;
+        const records = res.slice(offset, offset + pageSize);
+        const data = {
+          records,
+          total,
+          pageSize,
+          currentPage,
+        };
+        return { code: 1, data, msg: "success" };
+      }
+    } else {
+      return { code: 0, msg: err.sqlMessage };
     }
   },
   async updateArticle(params) {
     const { id, token, title, content, classify_id } = params;
+    const preview_content = content.split("/n").splice(0, 20).join("");
+    let temp = {};
     if (isValid(id)) {
+      temp = {
+        id,
+        title,
+        content,
+        preview_content,
+        classify_id,
+      };
     }
     if (isValid(title) && isValid(classify_id)) {
-      const preview_content = content.split("/n").splice(0, 15).join("");
       const user = jsonwebtoken.verify(token, SECRET);
-      const temp = {
+      temp = {
         author_id: user.id,
         title,
         content,
         preview_content,
         classify_id,
       };
-      const [err, res] = await updateArticle(temp);
     }
-    return { code: 0, msg: "" };
+
+    const [err, res] = await updateArticle(temp);
+
+    if (!err && res.affectedRows && !temp.id) {
+      return { code: 1, msg: "added success" };
+    } else if (!temp.id) {
+      return { code: 0, msg: "added fail" };
+    } else if (temp.id && !err && res.affectedRows) {
+      return { code: 1, msg: "update success" };
+    } else if (temp.id) {
+      return { code: 1, msg: "update fail" };
+    }
+
+    return { code: 0, msg: "fail,invalid value" };
   },
 };
