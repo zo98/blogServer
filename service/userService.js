@@ -18,7 +18,7 @@ module.exports = {
             code: 1,
             data: {
               account: data[0].account,
-              token: "Bear " + token,
+              token: token,
               nick_name: data[0].nick_name,
             },
             msg: "登录成功",

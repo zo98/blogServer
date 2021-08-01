@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="file" accept=".png, .jpg, .jpeg" multiple="multiple" id="input">
+  <div>
+    <button onclick="upLoad()">上传</button>
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script>
+    function upLoad() {
+      const input = document.getElementById('input')
+      console.log(input.files);
+    }
+  </script>
+</body>
+
+</html>

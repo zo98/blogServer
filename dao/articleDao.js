@@ -13,10 +13,10 @@ module.exports = {
         article.preview_content,
         article.create_time,
         article.update_time,
-        classify.classify_name
+        classify.\`name\`  AS classify_name
       FROM
         article
-        LEFT JOIN classify ON article.classify = classify.id 
+        LEFT JOIN classify ON article.classify_id = classify.id 
       WHERE
         article.id =${params.id}`
       );
@@ -26,7 +26,6 @@ module.exports = {
       article.id,
       article.author_id,
       article.title,
-      article.content,
       article.preview_content,
       article.create_time,
       article.update_time,

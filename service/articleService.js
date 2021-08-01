@@ -7,17 +7,17 @@ module.exports = {
     params = {
       pageSize: 10,
       currentPage: 1,
-      title: "",
+      keyWords: "",
       ...params,
     };
     let temp;
-    let { pageSize, currentPage, title, id } = params;
+    let { pageSize, currentPage, keyWords, id } = params;
     pageSize = Number(pageSize);
     currentPage = Number(currentPage);
     if (isValid(id)) {
       temp = { id };
     } else {
-      temp = { title };
+      temp = { title: keyWords };
     }
     const [err, res] = await getArticle(temp);
 
@@ -72,16 +72,18 @@ module.exports = {
 
     const [err, res] = await updateArticle(temp);
 
-    if (!err && res.affectedRows && !temp.id) {
-      return { code: 1, msg: "added success" };
-    } else if (!temp.id) {
-      return { code: 0, msg: "added fail" };
-    } else if (temp.id && !err && res.affectedRows) {
-      return { code: 1, msg: "update success" };
-    } else if (temp.id) {
-      return { code: 1, msg: "update fail" };
+    if (!temp.id) {
+      if (!err && res.affectedRows) {
+        return { code: 1, msg: "added success" };
+      }
+      return { code: 0, msg: err };
     }
 
-    return { code: 0, msg: "fail,invalid value" };
+    if (temp.id) {
+      if (!err && res.affectedRows) {
+        return { code: 1, msg: "update success" };
+      }
+      return { code: 0, msg: err };
+    }
   },
 };

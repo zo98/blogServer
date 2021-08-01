@@ -27,7 +27,7 @@ module.exports = {
       author_id INT NOT NULL,
       title VARCHAR(100) NOT NULL,
       content LONGTEXT,
-      preview_content VARCHAR(100),
+      preview_content LONGTEXT,
       classify_id INT NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(), 
       update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

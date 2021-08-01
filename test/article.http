@@ -1,6 +1,6 @@
 ### get article
 GET  http://localhost:8000/api/article/getArticle
-?title=test
+?keyWords=测
 &currentPage=2
 &pageSize=20
 

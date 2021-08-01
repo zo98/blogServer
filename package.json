@@ -18,7 +18,9 @@
     "koa-jwt": "^4.0.1",
     "koa-router": "^10.0.0",
     "koa2-cors": "^2.0.6",
+    "multer": "^1.4.2",
     "mysql": "^2.18.1",
+    "node-schedule": "^2.0.0",
     "nodemon": "^2.0.12"
   }
 }
