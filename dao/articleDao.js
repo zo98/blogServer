@@ -8,15 +8,18 @@ module.exports = {
         `SELECT
         article.id,
         article.author_id,
+        users.nick_name AS author
+        article.classify_id,
+        classify.\`name\`  AS classify_name,
         article.title,
         article.content,
         article.preview_content,
         article.create_time,
-        article.update_time,
-        classify.\`name\`  AS classify_name
+        article.update_time
       FROM
         article
-        LEFT JOIN classify ON article.classify_id = classify.id 
+        LEFT JOIN classify ON article.classify_id = classify.id
+        LEFT JOIN users ON article.author_id = users.id
       WHERE
         article.id =${params.id}`
       );
@@ -25,14 +28,17 @@ module.exports = {
       `SELECT
       article.id,
       article.author_id,
+      users.nick_name AS author,
+      article.classify_id,
+      classify.\`name\`  AS classify_name,
       article.title,
       article.preview_content,
       article.create_time,
-      article.update_time,
-      classify.\`name\`  AS classify_name
+      article.update_time
     FROM
       article
       LEFT JOIN classify ON article.classify_id = classify.id
+      LEFT JOIN users ON article.author_id = users.id
     WHERE
       title LIKE '%${title}%'
     `
