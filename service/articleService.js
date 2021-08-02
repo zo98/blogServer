@@ -1,4 +1,8 @@
-const { getArticle, updateArticle } = require("../dao/articleDao");
+const {
+  getArticle,
+  updateArticle,
+  deleteArticle,
+} = require("../dao/articleDao");
 const { isValid } = require("../utils/index");
 const jsonwebtoken = require("jsonwebtoken");
 const { SECRET } = require("../config/index");
@@ -23,6 +27,18 @@ module.exports = {
 
     if (!err) {
       if (isValid(id)) {
+        res.forEach((item) => {
+          item.content = item.content.replace(/&#34;|&#349;/g, (_m) => {
+            switch (_m) {
+              case "&#34;":
+                return '"';
+              case "&#39;":
+                return "'";
+              default:
+                return _m;
+            }
+          });
+        });
         return { code: 1, data: res, msg: "success" };
       } else {
         const total = res.length;
@@ -47,18 +63,22 @@ module.exports = {
     }
   },
   async updateArticle(params) {
-    const { id, token, title, content, classify_id } = params;
-    const preview_content = content.split("/n").splice(0, 20).join("");
+    let { id, token, title, content, classify_id } = params;
+
+    content = content.replace(/'|"/g, (_m) => {
+      switch (_m) {
+        case '"':
+          return "&#34;";
+        case "'":
+          return "&#39;";
+        default:
+          return _m;
+      }
+    });
+
+    let preview_content = content.replace(/(<.*?>)|(<\/.*?>)/g, "");
+    preview_content = preview_content = preview_content.substr(0, 200);
     let temp = {};
-    if (isValid(id)) {
-      temp = {
-        id,
-        title,
-        content,
-        preview_content,
-        classify_id,
-      };
-    }
     if (isValid(title) && isValid(classify_id)) {
       const user = jsonwebtoken.verify(token, SECRET);
       temp = {
@@ -68,6 +88,9 @@ module.exports = {
         preview_content,
         classify_id,
       };
+      if (isValid(id)) {
+        temp.id = id;
+      }
     }
 
     const [err, res] = await updateArticle(temp);
@@ -85,5 +108,16 @@ module.exports = {
       }
       return { code: 0, msg: err };
     }
+  },
+  async deleteArticle(params) {
+    const { id, status } = params;
+    if (isValid(id)) {
+      const [err, res] = deleteArticle(params);
+      if (!err && res.affectedRows) {
+        return { code: 1, msg: "success" };
+      }
+      return { code: 0, msg: err.sqlMessage };
+    }
+    return { code: 0, msg: "fail" };
   },
 };

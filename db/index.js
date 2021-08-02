@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const { dbConfig } = require("../config/index");
+const { dbConfig, initUser } = require("../config/index");
 const { initArticle, initClassify, initUsers } = require("./initDB");
 
 const pool = mysql.createPool(dbConfig);

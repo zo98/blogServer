@@ -11,4 +11,6 @@ module.exports = {
     timeout: 60 * 60 * 1000,
   },
   SECRET: "BLOGSERVERSECRET",
+  // 初始账户
+  initUser: { account: "admin", password: "Admin123" },
 };

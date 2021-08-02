@@ -30,7 +30,9 @@ module.exports = {
       preview_content LONGTEXT,
       classify_id INT NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(), 
-      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      data_status TINYINT(1) DEFAULT '0',
+      isDraft TINYINT(1) DEFAULT '0'
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {
         if (error) {
@@ -56,6 +58,12 @@ module.exports = {
           console.log(error.sqlMessage);
         } else {
           console.log("创建users表成功");
+          const [err, res] = connection.query(
+            `INSERT INTO users(account,password,nick_name) VALUES('${initUser.account}','${initUser.password}','${initUser.account}')`
+          );
+          if (!err && res.affectedRows) {
+            console.log("创建初始账户成功");
+          }
         }
       }
     );

@@ -1,4 +1,8 @@
-const { getClassify, updateClassify } = require("../dao/classifyDao");
+const {
+  getClassify,
+  updateClassify,
+  deleteClassify,
+} = require("../dao/classifyDao");
 const { isValid } = require("../utils/index");
 module.exports = {
   async getClassify(params = {}) {
@@ -49,5 +53,16 @@ module.exports = {
       }
     }
     return { code: 0, msg: "fail,invalid value" };
+  },
+  async deleteClassify(params) {
+    const { id } = params;
+    if (isValid(id)) {
+      const [err, res] = deleteClassify(params);
+      if (!err && res.affectedRows) {
+        return { code: 1, msg: "success" };
+      }
+      return { code: 0, msg: "fail" };
+    }
+    return { code: 0, msg: "fail" };
   },
 };

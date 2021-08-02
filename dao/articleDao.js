@@ -8,7 +8,7 @@ module.exports = {
         `SELECT
         article.id,
         article.author_id,
-        users.nick_name AS author
+        users.nick_name AS author,
         article.classify_id,
         classify.\`name\`  AS classify_name,
         article.title,
@@ -34,13 +34,14 @@ module.exports = {
       article.title,
       article.preview_content,
       article.create_time,
-      article.update_time
+      article.update_time,
+      article.data_status      
     FROM
       article
       LEFT JOIN classify ON article.classify_id = classify.id
       LEFT JOIN users ON article.author_id = users.id
     WHERE
-      title LIKE '%${title}%'
+      title LIKE '%${title}%' AND data_status=0
     `
     );
   },
@@ -49,10 +50,17 @@ module.exports = {
       params;
     if (id) {
       return query(
-        `UPDATE article SET title=${title},content=${content},preview_content=${preview_content},classify_id=${classify_id} WHERE id=${id}`
+        `UPDATE article SET title='${title}',content='${content}',preview_content='${preview_content}',classify_id='${classify_id}' WHERE id='${id}'`
       );
     }
     return query(`INSERT INTO article ( author_id,title,content,preview_content,classify_id)
     VALUES('${author_id}','${title}','${content}','${preview_content}','${classify_id}')`);
+  },
+  deleteArticle(params) {
+    const { id, status } = params;
+    if (status) {
+      return query(`DELETE FROM article WHERE id=${id}`);
+    }
+    return query(`UPDATE article SET data_status=1 WHERE id=${id}`);
   },
 };

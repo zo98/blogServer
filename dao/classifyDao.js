@@ -16,4 +16,8 @@ module.exports = {
     return query(`INSERT INTO classify ( name )
     VALUES('${name}')`);
   },
+  deleteClassify(params) {
+    const { id } = params;
+    return query(`DELETE FROM classify WHERE id=${id}`);
+  },
 };
