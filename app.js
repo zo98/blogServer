@@ -5,6 +5,7 @@ const koa_body = require("koa-body");
 const articleRouter = require("./router/articleRouter");
 const classifyRouter = require("./router/classifyRouter");
 const userRouter = require("./router/userRouter");
+const upLoadRouter = require("./router/upLoadRouter");
 const index = require("./router/indexRouter");
 // 跨域
 // app.use(cors());
@@ -31,5 +32,6 @@ app.use(index.routes(), index.allowedMethods());
 app.use(articleRouter.routes(), articleRouter.allowedMethods());
 app.use(classifyRouter.routes(), classifyRouter.allowedMethods());
 app.use(userRouter.routes(), userRouter.allowedMethods());
+app.use(upLoadRouter.routes(), upLoadRouter.allowedMethods());
 
 app.listen(8000);

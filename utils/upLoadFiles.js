@@ -18,18 +18,14 @@ function uploadFiles(options = {}) {
     // 2.1 确定图片存储的位置
     destination: function (req, file, cb) {
       // 当 path 所对应目录不存在时，则自动创建该文件
-      try {
-        fs.accessSync(path);
-      } catch (error) {
-        fs.mkdirSync(path);
-      }
+      mkdirsSync(path);
       cb(null, path);
     },
     // 2.2 确定图片存储时的名字。（注意：如果使用原名，可能会造成再次上传同一张图片的时候的冲突）
     filename: function (req, file, cb) {
-      var changedName = `${new Date().getTime()}-${
-        file.originalname
-      }-${parseInt(Math.random() * 10000000)}`;
+      var changedName = `${new Date().getTime()}-${parseInt(
+        Math.random() * 10000000
+      )}-${file.originalname}`;
       cb(null, changedName);
     },
   });
@@ -108,6 +104,18 @@ function deleteFiles(dir) {
   } catch (error) {
     console.log("文件删除失败：");
     console.log(error);
+  }
+}
+
+function mkdirsSync(dirname) {
+  try {
+    fs.accessSync(dirname, fs.constants.F_OK);
+    return true;
+  } catch (error) {
+    if (mkdirsSync(path.dirname(dirname))) {
+      fs.mkdirSync(dirname);
+      return true;
+    }
   }
 }
 
