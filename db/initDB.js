@@ -59,12 +59,14 @@ module.exports = {
           console.log(error.sqlMessage);
         } else {
           console.log("创建users表成功");
-          const [err, res] = connection.query(
-            `INSERT INTO users(account,password,nick_name) VALUES('${initUser.account}','${initUser.password}','${initUser.account}')`
+          connection.query(
+            `INSERT INTO users(account,password,nick_name) VALUES('${initUser.account}','${initUser.password}','${initUser.account}')`,
+            (err, res) => {
+              if (!err && res.affectedRows) {
+                console.log("创建初始账户成功");
+              }
+            }
           );
-          if (!err && res.affectedRows) {
-            console.log("创建初始账户成功");
-          }
         }
       }
     );
