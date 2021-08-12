@@ -1,3 +1,4 @@
+const { initUser } = require("../config/index");
 module.exports = {
   // 初始化分类
   initClassify(connection) {
@@ -9,7 +10,7 @@ module.exports = {
       id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
       name VARCHAR(80) NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(),
-      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL DEFAULT NULL
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {
         if (error) {
@@ -30,7 +31,7 @@ module.exports = {
       preview_content LONGTEXT,
       classify_id INT NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(), 
-      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL DEFAULT NULL,
       data_status TINYINT(1) DEFAULT '0',
       isDraft TINYINT(1) DEFAULT '0'
     ) AUTO_INCREMENT = 0 ;`,
@@ -51,7 +52,7 @@ module.exports = {
       account VARCHAR(80) NOT NULL,
       password VARCHAR(80) NOT NULL,
       create_time TIMESTAMP DEFAULT NOW(),
-      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL DEFAULT NULL
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {
         if (error) {

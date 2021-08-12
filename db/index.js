@@ -21,7 +21,7 @@ function connectDb() {
     if (err && err.errno === 1049) {
       // 数据库不存在，创建数据库,创建表
       console.log("初始化数据库");
-      const config = dbConfig;
+      const config = {...dbConfig};
       delete config.database;
       const connect = mysql.createConnection(config);
       connect.query(`create database ${dbConfig.database}`, (err) => {
@@ -29,6 +29,7 @@ function connectDb() {
           connect.destroy();
           connectDb();
         }
+        console.log(err);
       });
     } else if (err) {
       console.log("连接数据库失败,60秒后重试", err);
