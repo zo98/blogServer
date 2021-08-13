@@ -14,6 +14,7 @@ module.exports = {
         article.title,
         article.content,
         article.preview_content,
+        article.imgs,
         article.create_time,
         article.update_time
       FROM
@@ -33,6 +34,7 @@ module.exports = {
       classify.\`name\`  AS classify_name,
       article.title,
       article.preview_content,
+      article.imgs,
       article.create_time,
       article.update_time,
       article.data_status      
@@ -46,15 +48,22 @@ module.exports = {
     );
   },
   updateArticle(params) {
-    const { id, author_id, title, content, preview_content, classify_id } =
-      params;
+    const {
+      id,
+      author_id,
+      title,
+      content,
+      preview_content,
+      classify_id,
+      imgs,
+    } = params;
     if (id) {
       return query(
-        `UPDATE article SET title='${title}',content='${content}',preview_content='${preview_content}',classify_id='${classify_id}' WHERE id='${id}'`
+        `UPDATE article SET title='${title}',content='${content}',preview_content='${preview_content}',classify_id='${classify_id}',imgs='${imgs}' WHERE id='${id}'`
       );
     }
-    return query(`INSERT INTO article ( author_id,title,content,preview_content,classify_id)
-    VALUES('${author_id}','${title}','${content}','${preview_content}','${classify_id}')`);
+    return query(`INSERT INTO article ( author_id,title,content,preview_content,imgs,classify_id)
+    VALUES('${author_id}','${title}','${content}','${preview_content}','${imgs}','${classify_id}')`);
   },
   deleteArticle(params) {
     const { id, status } = params;

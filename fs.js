@@ -9,7 +9,7 @@ function mkdirsSync(dirname) {
     if (mkdirsSync(path.dirname(dirname))) {
       console.log(path.dirname(dirname));
       fs.mkdirSync(dirname);
-      return true;
+      return true;  
     }
   }
 }

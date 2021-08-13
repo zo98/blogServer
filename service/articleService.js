@@ -4,6 +4,7 @@ const {
   deleteArticle,
 } = require("../dao/articleDao");
 const { isValid } = require("../utils/index");
+const { configPath, serverHost } = require("../config/index");
 const jsonwebtoken = require("jsonwebtoken");
 const { SECRET } = require("../config/index");
 module.exports = {
@@ -65,6 +66,18 @@ module.exports = {
   async updateArticle(params) {
     let { id, token, title, content, classify_id } = params;
 
+    let imgs = [];
+    const regImg = new RegExp(
+      `"${serverHost}/${configPath.source}/(.*?)"`,
+      "g"
+    );
+    content = content.replace(regImg, (_, a) => {
+      imgs.push(a);
+      return `"${serverHost}/${configPath.source}/${a}"`;
+    });
+
+    imgs = Array.from(new Set(imgs));
+
     content = content.replace(/'|"/g, (_m) => {
       switch (_m) {
         case '"':
@@ -78,7 +91,7 @@ module.exports = {
 
     let preview_content = content.replace(/(<.*?>)|(<\/.*?>)/g, "");
     preview_content = preview_content = preview_content.substr(0, 200);
-    let temp = {};
+    let temp;
     if (isValid(title) && isValid(classify_id)) {
       const user = jsonwebtoken.verify(token, SECRET);
       temp = {
@@ -87,14 +100,16 @@ module.exports = {
         content,
         preview_content,
         classify_id,
+        imgs: JSON.stringify(imgs),
       };
+
       if (isValid(id)) {
         temp.id = id;
       }
     }
 
     const [err, res] = await updateArticle(temp);
-
+    console.log(temp);
     if (!temp.id) {
       if (!err && res.affectedRows) {
         return { code: 1, msg: "added success" };

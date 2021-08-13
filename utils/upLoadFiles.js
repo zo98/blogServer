@@ -58,14 +58,15 @@ function moveFiles({ fromPath, toPath, filename } = {}) {
   const sourceFile = path.join(fromPath, filename);
   // 判断源文件是否存在
   try {
-    fs.accessSync(sourceFile);
+    fs.accessSync(sourceFile,fs.constants.F_OK);
   } catch (error) {
+    console.log(error);
     console.log("文件移动失败：" + sourceFile + " 该文件不存在。");
     return;
   }
   // 判断文件要移动的新路径是否存在，如果不存在，则创建
   try {
-    fs.accessSync(toPath);
+    fs.accessSync(toPath,fs.constants.F_OK);
   } catch (error) {
     fs.mkdirSync(toPath);
   }
@@ -81,7 +82,7 @@ function moveFiles({ fromPath, toPath, filename } = {}) {
 function deleteFiles(dir) {
   // 判断 dir 是否存在
   try {
-    fs.accessSync(dir);
+    fs.accessSync(dir,fs.constants.F_OK);
   } catch (error) {
     console.log(dir + " 该路径不存在。");
     return;
