@@ -5,6 +5,7 @@ const {
   getClassify,
   updateClassify,
   deleteClassify,
+  getHotClassify,
 } = require("../service/classifyService");
 
 router.prefix("/api/classify");
@@ -19,6 +20,10 @@ router.post("/updateClassify", async (ctx, next) => {
 
 router.post("/deleteClassify", async (ctx, next) => {
   ctx.body = await deleteClassify(ctx.request.body);
+});
+
+router.get("/hotClassify", async (ctx, next) => {
+  ctx.body = await getHotClassify(ctx.query);
 });
 
 module.exports = router;

@@ -4,6 +4,8 @@ module.exports = {
   getArticle(params) {
     const { title, id } = params;
     if (id) {
+      // 浏览量
+      query(`UPDATE article set views= IFNULL(views,0)+1 WHERE id = '${id}'`)
       return query(
         `SELECT
         article.id,
@@ -13,6 +15,8 @@ module.exports = {
         classify.\`name\`  AS classify_name,
         article.title,
         article.content,
+        IFNULL(article.views,0) AS views,
+        IFNULL(article.likes,0) AS likes,
         article.preview_content,
         article.imgs,
         article.create_time,
@@ -33,6 +37,8 @@ module.exports = {
       article.classify_id,
       classify.\`name\`  AS classify_name,
       article.title,
+      IFNULL(article.views,0) AS views,
+      IFNULL(article.likes,0) AS likes,
       article.preview_content,
       article.imgs,
       article.create_time,
@@ -44,6 +50,7 @@ module.exports = {
       LEFT JOIN users ON article.author_id = users.id
     WHERE
       title LIKE '%${title}%' AND data_status=0
+      ORDER BY create_time DESC
     `
     );
   },

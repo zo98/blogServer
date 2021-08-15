@@ -3,6 +3,9 @@ GET  http://localhost:8000/api/classify/getClassify
 ?pageSize=10
 &currentPage=1
 
+### hotClassify
+GET  http://localhost:8000/api/classify/hotClassify
+
 
 ### update and add api
 POST  http://localhost:8000/api/classify/updateClassify

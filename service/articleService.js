@@ -51,6 +51,17 @@ module.exports = {
         }
         const offset = (currentPage - 1) * pageSize;
         const records = res.slice(offset, offset + pageSize);
+        records.forEach((item) => {
+          try {
+            if (item.imgs) {
+              item.imgs = JSON.parse(item.imgs);
+            } else {
+              item.imgs = [];
+            }
+          } catch (error) {
+            item.imgs = [];
+          }
+        });
         const data = {
           records,
           total,

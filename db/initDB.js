@@ -34,6 +34,8 @@ module.exports = {
       create_time TIMESTAMP DEFAULT NOW(), 
       update_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL DEFAULT NULL,
       data_status TINYINT(1) DEFAULT '0',
+      views INT,
+      likes INT,
       isDraft TINYINT(1) DEFAULT '0'
     ) AUTO_INCREMENT = 0 ;`,
       (error) => {

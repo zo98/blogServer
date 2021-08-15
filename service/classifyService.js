@@ -2,6 +2,7 @@ const {
   getClassify,
   updateClassify,
   deleteClassify,
+  getHotClassify,
 } = require("../dao/classifyDao");
 const { isValid } = require("../utils/index");
 module.exports = {
@@ -64,5 +65,26 @@ module.exports = {
       return { code: 0, msg: "fail" };
     }
     return { code: 0, msg: "fail" };
+  },
+  async getHotClassify(params = {}) {
+    params = {
+      pageSize: 10,
+      currentPage: 1,
+      ...params,
+    };
+    let { pageSize, currentPage } = params;
+    currentPage = Number(currentPage);
+    pageSize = Number(pageSize);
+    const offset = (currentPage - 1) * pageSize;
+    try {
+      const [err, records] = await getHotClassify({ offset, pageSize });
+      if (!err) {
+        return { code: 1, data: { records }, msg: "success" };
+      } else {
+        return { code: 0, data: { records: [] }, msg: err };
+      }
+    } catch (error) {
+      return { code: 0, data: { records: [] }, msg: error };
+    }
   },
 };

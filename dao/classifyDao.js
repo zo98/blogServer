@@ -8,6 +8,21 @@ module.exports = {
     const { keyWords } = params;
     return query(`SELECT * FROM classify WHERE name LIKE '%${keyWords}%'`);
   },
+  getHotClassify(params) {
+    const { offset, pageSize } = params;
+    return query(`SELECT
+    classify.id,
+    classify.\`name\`,
+    COUNT(*) AS nums
+  FROM
+    article
+    LEFT JOIN classify ON article.classify_id = classify.id 
+  GROUP BY
+    classify_id
+    ORDER BY nums DESC
+    LIMIT ${offset},${pageSize}
+    `);
+  },
   updateClassify(params) {
     const { id, name } = params;
     if (id) {
