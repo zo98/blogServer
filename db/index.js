@@ -2,15 +2,20 @@ const mysql = require("mysql");
 const { dbConfig, initUser } = require("../config/index");
 const { initArticle, initClassify, initUsers } = require("./initDB");
 
-const pool = mysql.createPool(dbConfig);
+let pool = mysql.createPool(dbConfig);
 
 function query(sql) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      connection.query(sql, (err, res, fields) => {
-        resolve([err, res, fields]);
-      });
-      connection.release();
+      if (!err) {
+        connection.query(sql, (err, res, fields) => {
+          resolve([err, res, fields]);
+        });
+        connection.release();
+      }else{
+        console.log("error", err);
+      }
+      
     });
   });
 }
@@ -21,7 +26,7 @@ function connectDb() {
     if (err && err.errno === 1049) {
       // 数据库不存在，创建数据库,创建表
       console.log("初始化数据库");
-      const config = {...dbConfig};
+      const config = { ...dbConfig };
       delete config.database;
       const connect = mysql.createConnection(config);
       connect.query(`create database ${dbConfig.database}`, (err) => {
