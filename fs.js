@@ -1,17 +1,16 @@
-const fs = require("fs");
-const path = require("path");
+const { readFile } = require("fs/promises");
 
-function mkdirsSync(dirname) {
-  try {
-    fs.accessSync(dirname, fs.constants.F_OK);
-    return true;
-  } catch (error) {
-    if (mkdirsSync(path.dirname(dirname))) {
-      console.log(path.dirname(dirname));
-      fs.mkdirSync(dirname);
-      return true;  
-    }
-  }
-}
+const template = {
+  ipc: {
+    text: "京ICP备10036305号-7",
+    link: "",
+  },
+  menu: [],
+  about: "",
+};
 
-mkdirsSync("./hello");
+readFile("./utils/blog_config.json", {
+  encoding: "utf-8",
+}).then((res) => {
+  console.log(res);
+});

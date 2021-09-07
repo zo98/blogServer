@@ -11,3 +11,5 @@ Authorization:Bear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmlja19uYW1l
   "content":"<p>hello</p>/n<p>hello</p>",
   "classify_id":"1"
 }
+###
+GET http://localhost:8000/api/article/getArticleByClassify?id=1

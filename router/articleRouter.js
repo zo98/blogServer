@@ -4,6 +4,7 @@ const {
   getArticle,
   updateArticle,
   deleteArticle,
+  getArticleByClassify,
 } = require("../service/articleService");
 router.prefix("/api/article");
 
@@ -17,6 +18,10 @@ router.post("/updateArticle", async (ctx, next) => {
 });
 router.post("/deleteArticle", async (ctx, next) => {
   ctx.body = await deleteArticle(ctx.request.body);
+});
+
+router.get("/getArticleByClassify", async (ctx, next) => {
+  ctx.body = await getArticleByClassify(ctx.query);
 });
 
 module.exports = router;

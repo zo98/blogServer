@@ -7,6 +7,7 @@ const articleRouter = require("./router/articleRouter");
 const classifyRouter = require("./router/classifyRouter");
 const userRouter = require("./router/userRouter");
 const upLoadRouter = require("./router/upLoadRouter");
+const indexRouter = require("./router/indexRouter");
 const staticServer = require("koa-static");
 require("./auto_service/index")
 // 跨域
@@ -34,5 +35,6 @@ app.use(articleRouter.routes(), articleRouter.allowedMethods());
 app.use(classifyRouter.routes(), classifyRouter.allowedMethods());
 app.use(userRouter.routes(), userRouter.allowedMethods());
 app.use(upLoadRouter.routes(), upLoadRouter.allowedMethods());
+app.use(indexRouter.routes(), indexRouter.allowedMethods());
 app.use(staticServer(path.join(__dirname, "public")));
 app.listen(8000);

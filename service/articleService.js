@@ -2,6 +2,7 @@ const {
   getArticle,
   updateArticle,
   deleteArticle,
+  getArticleByClassify,
 } = require("../dao/articleDao");
 const { isValid } = require("../utils/index");
 const { configPath, serverHost } = require("../config/index");
@@ -138,12 +139,60 @@ module.exports = {
   async deleteArticle(params) {
     const { id, status } = params;
     if (isValid(id)) {
-      const [err, res] = deleteArticle(params);
+      const [err, res] = await deleteArticle(params);
       if (!err && res.affectedRows) {
         return { code: 1, msg: "success" };
       }
       return { code: 0, msg: err.sqlMessage };
     }
     return { code: 0, msg: "fail" };
+  },
+  async getArticleByClassify(params) {
+    params = {
+      pageSize: 10,
+      currentPage: 1,
+      ...params,
+    };
+
+    params.pageSize = Number(params.pageSize);
+    params.currentPage = Number(params.currentPage);
+
+    let { currentPage, pageSize } = params;
+
+    const [err, res] = await getArticleByClassify(params);
+
+    if (err) {
+      return { code: 0, msg: "fail" };
+    }
+
+    const total = res.length;
+
+    if (currentPage >= Math.ceil(total / pageSize)) {
+      currentPage = Math.ceil(total / pageSize);
+    } else if (currentPage < 0) {
+      currentPage = 1;
+    }
+    const offset = (currentPage - 1) * pageSize;
+    const records = res.slice(offset, offset + pageSize);
+    records.forEach((item) => {
+      try {
+        if (item.imgs) {
+          item.imgs = JSON.parse(item.imgs);
+        } else {
+          item.imgs = [];
+        }
+      } catch (error) {
+        item.imgs = [];
+      }
+    });
+    return {
+      code: 1,
+      data: {
+        total,
+        currentPage,
+        pageSize,
+        records,
+      },
+    };
   },
 };

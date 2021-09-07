@@ -1,0 +1,15 @@
+{
+  "blog": {
+    "title": "Bolg",
+    "description": "My Blog"
+  },
+  "ipc": {
+    "text": "京ICP备10036305号-7",
+    "link": ""
+  },
+  "menu": [],
+  "contact": {
+    "bilibili": "",
+    "weibo": ""
+  }
+}
