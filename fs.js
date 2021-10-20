@@ -9,7 +9,7 @@ const template = {
   about: "",
 };
 
-readFile("./utils/blog_config.json", {
+readFile("./config/blog_config.json", {
   encoding: "utf-8",
 }).then((res) => {
   console.log(res);
