@@ -1,6 +1,7 @@
+const { hashSync } = require("bcryptjs");
 module.exports = {
   dbConfig: {
-    host: "192.168.138.128",
+    host: "192.168.189.129",
     user: "root",
     port: "3306",
     password: "3729",
@@ -12,10 +13,10 @@ module.exports = {
   },
   SECRET: "BLOGSERVERSECRET",
   // 初始账户
-  initUser: { account: "admin", password: "Admin123" },
+  initUser: { account: "admin", password: hashSync("Admin123") },
   configPath: {
     img: "public/sources/images",
-    temp:'public/sources/temp',
+    temp: "public/sources/temp",
     source: "sources/images",
   },
   serverHost: "http://localhost:8000",

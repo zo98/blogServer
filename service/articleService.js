@@ -103,6 +103,7 @@ module.exports = {
 
     let preview_content = content.replace(/(<.*?>)|(<\/.*?>)/g, "");
     preview_content = preview_content = preview_content.substr(0, 200);
+    preview_content = preview_content.replace(/\s/g, "");
     let temp;
     if (isValid(title) && isValid(classify_id)) {
       const user = jsonwebtoken.verify(token, SECRET);
