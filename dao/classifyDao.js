@@ -26,7 +26,9 @@ module.exports = {
   updateClassify(params) {
     const { id, name } = params;
     if (id) {
-      return query(`UPDATE classify SET name='${name}' WHERE id='${id}'`);
+      return query(
+        `UPDATE classify SET name='${name}',cover=${cover} WHERE id='${id}'`
+      );
     }
     return query(`INSERT INTO classify ( name )
     VALUES('${name}')`);

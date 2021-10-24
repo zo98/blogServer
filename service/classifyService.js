@@ -35,7 +35,8 @@ module.exports = {
     }
   },
   async updateClassify(params) {
-    const { id, name } = params;
+    // todo 将封面图片移动到image文件夹,同时删除临时文件
+    const { id, name, cover } = params;
     if (isValid(id) && isValid(name)) {
       const [err, res] = await updateClassify(params);
       if (!err && res.affectedRows) {

@@ -15,6 +15,7 @@ module.exports = {
   initUser: { account: "admin", password: "Admin123" },
   configPath: {
     img: "public/sources/images",
+    temp:'public/sources/temp',
     source: "sources/images",
   },
   serverHost: "http://localhost:8000",

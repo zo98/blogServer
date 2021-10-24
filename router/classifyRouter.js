@@ -7,6 +7,7 @@ const {
   deleteClassify,
   getHotClassify,
 } = require("../service/classifyService");
+const { uploadClove } = require("../service/upLoadService");
 
 router.prefix("/api/classify");
 
@@ -15,7 +16,8 @@ router.get("/getClassify", async (ctx, next) => {
 });
 
 router.post("/updateClassify", async (ctx, next) => {
-  ctx.body = await updateClassify(ctx.request.body);
+  ctx.body = ctx.request.body;
+  // ctx.body = await updateClassify(ctx.request.body);
 });
 
 router.post("/deleteClassify", async (ctx, next) => {
@@ -24,6 +26,9 @@ router.post("/deleteClassify", async (ctx, next) => {
 
 router.get("/hotClassify", async (ctx, next) => {
   ctx.body = await getHotClassify(ctx.query);
+});
+router.post("/uploadimg", async (ctx, next) => {
+  ctx.body = await uploadClove(ctx.req, ctx.res, ctx.request.host);
 });
 
 module.exports = router;
