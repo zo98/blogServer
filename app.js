@@ -9,11 +9,13 @@ const userRouter = require("./router/userRouter");
 const upLoadRouter = require("./router/upLoadRouter");
 const indexRouter = require("./router/indexRouter");
 const staticServer = require("koa-static");
-require("./auto_service/index")
+const { verifyToken } = require("./utils/verifyToken");
+require("./auto_service/index");
 // 跨域
 // app.use(cors());
 
 app.use(koa_body());
+app.use(verifyToken)
 
 // logger
 app.use(async (ctx, next) => {

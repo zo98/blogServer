@@ -12,7 +12,7 @@ module.exports = {
         const isSame = compareSync(params.password, data[0].password);
         if (isSame) {
           const token = jsonwebtoken.sign({ ...data[0] }, SECRET, {
-            expiresIn: "6h",
+            expiresIn: "1h",
           });
           return {
             code: 1,
