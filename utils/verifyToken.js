@@ -9,6 +9,7 @@ const excludePath = [
   /\/api\/blogdata/,
   /\/api\/user\/login/,
   /\/sources/,
+  /\/api\/system\/getInfo/,
 ];
 module.exports = {
   async verifyToken(ctx, next) {
@@ -16,7 +17,7 @@ module.exports = {
     const verify = excludePath.some((item) => {
       return item.test(ctx.request.url);
     });
-    console.log("url",ctx.request.url,"verify", verify);
+    console.log("url", ctx.request.url, "verify", verify);
     if (verify) {
       return await next();
     }
@@ -24,13 +25,21 @@ module.exports = {
     if (token) {
       try {
         const user = jsonwebtoken.verify(token, SECRET);
-        return await next()
+        console.log(user);
+        try {
+          return await next();
+        } catch (error) {
+          console.log(error);
+          ctx.response.status = 500;
+          return;
+        }
       } catch (error) {
+        console.log(error);
         ctx.response.status = 401;
-        return
+        return;
       }
     }
     ctx.response.status = 401;
-    return
+    return;
   },
 };

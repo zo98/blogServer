@@ -12,10 +12,9 @@ function query(sql) {
           resolve([err, res, fields]);
         });
         connection.release();
-      }else{
+      } else {
         console.log("error", err);
       }
-      
     });
   });
 }
@@ -49,6 +48,11 @@ function connectDb() {
       connection.release();
     }
   });
+}
+
+// 封装数据库
+class DB {
+  constructor() {}
 }
 
 connectDb();

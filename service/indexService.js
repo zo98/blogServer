@@ -31,7 +31,7 @@ module.exports = {
     count DESC 
     LIMIT 5`);
 
-    const p3 = readFile(join(__dirname, "../utils/blog_config.json"), {
+    const p3 = readFile(join(__dirname, "../config/blog_config.json"), {
       encoding: "utf-8",
     });
 

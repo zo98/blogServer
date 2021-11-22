@@ -17,7 +17,7 @@ router.get("/getClassify", async (ctx, next) => {
 
 router.post("/updateClassify", async (ctx, next) => {
   ctx.body = ctx.request.body;
-  // ctx.body = await updateClassify(ctx.request.body);
+  ctx.body = await updateClassify(ctx.request.body);
 });
 
 router.post("/deleteClassify", async (ctx, next) => {
