@@ -12,7 +12,7 @@ module.exports = {
   },
   SECRET: "BLOGSERVERSECRET",
   // 初始账户
-  initUser: { account: "admin", password: "Admin123" },
+  user: { account: "admin", password: "Admin123" },
   configPath: {
     img: "public/sources/images",
     temp:'public/sources/temp',

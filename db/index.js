@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const { dbConfig, initUser } = require("../config/index");
+const { dbConfig, user } = require("../config/index");
 const { initArticle, initClassify, initUsers } = require("./initDB");
 
 let pool = mysql.createPool(dbConfig);
@@ -50,10 +50,7 @@ function connectDb() {
   });
 }
 
-// 封装数据库
-class DB {
-  constructor() {}
-}
+
 
 connectDb();
 
