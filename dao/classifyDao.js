@@ -24,14 +24,14 @@ module.exports = {
     `);
   },
   updateClassify(params) {
-    const { id, name } = params;
+    const { id, name, cover } = params;
     if (id) {
       return query(
         `UPDATE classify SET name='${name}',cover=${cover} WHERE id='${id}'`
       );
     }
-    return query(`INSERT INTO classify ( name )
-    VALUES('${name}')`);
+    return query(`INSERT INTO classify ( name,cover )
+    VALUES('${name}','${cover}')`);
   },
   deleteClassify(params) {
     const { id } = params;

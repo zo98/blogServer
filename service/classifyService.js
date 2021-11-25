@@ -4,7 +4,7 @@ const {
   deleteClassify,
   getHotClassify,
 } = require("../dao/classifyDao");
-const { isValid } = require("../utils/index");
+const { isValid, replaceImgPathToName } = require("../utils/index");
 module.exports = {
   async getClassify(params = {}) {
     params = {
@@ -35,9 +35,12 @@ module.exports = {
     }
   },
   async updateClassify(params) {
-    // todo 将封面图片移动到image文件夹,同时删除临时文件
-    const { id, name, cover } = params;
+    let { id, name, cover } = params;
+    // 替换
+    params.cover = replaceImgPathToName(cover);
+
     if (isValid(id) && isValid(name)) {
+      // 修改
       const [err, res] = await updateClassify(params);
       if (!err && res.affectedRows) {
         return { code: 1, msg: "update success" };
@@ -47,6 +50,7 @@ module.exports = {
     }
 
     if (isValid(name)) {
+      // 添加
       const [err, res] = await updateClassify(params);
       if (!err && res.affectedRows) {
         return { code: 1, msg: "added success" };
@@ -59,13 +63,14 @@ module.exports = {
   async deleteClassify(params) {
     const { id } = params;
     if (isValid(id)) {
-      const [err, res] = deleteClassify(params);
+      console.log(params);
+      const [err, res] = await deleteClassify(params);
       if (!err && res.affectedRows) {
         return { code: 1, msg: "success" };
       }
-      return { code: 0, msg: "fail" };
+      return { code: 0, msg: err };
     }
-    return { code: 0, msg: "fail" };
+    return { code: 0, msg: err };
   },
   async getHotClassify(params = {}) {
     params = {
