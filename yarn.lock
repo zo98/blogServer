@@ -9,6 +9,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/mysql@^2.15.19":
+  version "2.15.19"
+  resolved "https://registry.npmmirror.com/@types/mysql/download/@types/mysql-2.15.19.tgz#d158927bb7c1a78f77e56de861a3b15cae0e7aed"
+  integrity sha1-0ViSe7fBp4935W3oYaOxXK4Oeu0=
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "16.4.3"
   resolved "https://registry.nlark.com/@types/node/download/@types/node-16.4.3.tgz?cache=0&sync_timestamp=1627257784975&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-16.4.3.tgz#c01c1a215721f6dec71b47d88b4687463601ba48"

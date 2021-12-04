@@ -84,6 +84,7 @@ module.exports = {
       "g"
     );
     content = content.replace(regImg, (_, a) => {
+      console.log("img",a);
       imgs.push(a);
       return `"${serverHost}/${configPath.source}/${a}"`;
     });

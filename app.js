@@ -8,12 +8,15 @@ const classifyRouter = require("./router/classifyRouter");
 const userRouter = require("./router/userRouter");
 const upLoadRouter = require("./router/upLoadRouter");
 const indexRouter = require("./router/indexRouter");
+const systemRouter = require("./router/systemRouter");
 const staticServer = require("koa-static");
-require("./auto_service/index")
+const { verifyToken } = require("./utils/verifyToken");
+// require("./auto_service/index");
 // 跨域
 // app.use(cors());
 
 app.use(koa_body());
+app.use(verifyToken);
 
 // logger
 app.use(async (ctx, next) => {
@@ -36,5 +39,6 @@ app.use(classifyRouter.routes(), classifyRouter.allowedMethods());
 app.use(userRouter.routes(), userRouter.allowedMethods());
 app.use(upLoadRouter.routes(), upLoadRouter.allowedMethods());
 app.use(indexRouter.routes(), indexRouter.allowedMethods());
+app.use(systemRouter.routes(), systemRouter.allowedMethods());
 app.use(staticServer(path.join(__dirname, "public")));
 app.listen(8000);

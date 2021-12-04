@@ -5,4 +5,7 @@ router.prefix("/api");
 router.get("/blogdata", async (ctx, next) => {
   ctx.body = await getBlogData(ctx.query);
 });
+router.get("/check", async (ctx, next) => {
+  ctx.body = { msg: "ok" };
+});
 module.exports = router;
