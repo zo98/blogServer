@@ -13,6 +13,7 @@ module.exports = {
     return query(`SELECT
     classify.id,
     classify.\`name\`,
+    classify.cover,
     COUNT(*) AS nums
   FROM
     article
@@ -27,7 +28,7 @@ module.exports = {
     const { id, name, cover } = params;
     if (id) {
       return query(
-        `UPDATE classify SET name='${name}',cover=${cover} WHERE id='${id}'`
+        `UPDATE classify SET name='${name}',cover='${cover}' WHERE id='${id}'`
       );
     }
     return query(`INSERT INTO classify ( name,cover )

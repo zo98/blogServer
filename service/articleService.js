@@ -77,16 +77,13 @@ module.exports = {
   },
   async updateArticle(params) {
     let { id, token, title, content, classify_id } = params;
+    console.log(params);
 
-    let imgs = [];
-    const regImg = new RegExp(
-      `"${serverHost}/${configPath.source}/(.*?)"`,
-      "g"
-    );
-    content = content.replace(regImg, (_, a) => {
-      console.log("img",a);
-      imgs.push(a);
-      return `"${serverHost}/${configPath.source}/${a}"`;
+    let imgs = content.match(/\.\.\/sources\/images\/(.*?)"/g) || [];
+    imgs = imgs.map((item) => {
+      return item.replace(/\.\.\/sources\/images\/(.*?)"/, (_, a) => {
+        return a;
+      });
     });
 
     imgs = Array.from(new Set(imgs));

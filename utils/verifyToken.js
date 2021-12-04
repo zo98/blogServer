@@ -10,6 +10,7 @@ const excludePath = [
   /\/api\/user\/login/,
   /\/sources/,
   /\/api\/system\/getInfo/,
+  /\/api\/classify\/hotClassify/,
 ];
 module.exports = {
   async verifyToken(ctx, next) {
@@ -21,7 +22,10 @@ module.exports = {
     if (verify) {
       return await next();
     }
-    const token = ctx.request.header.authorization.split(" ")[1];
+    let token;
+    try {
+      token = ctx.request.header.authorization.split(" ")[1];
+    } catch (error) {}
     if (token) {
       try {
         const user = jsonwebtoken.verify(token, SECRET);

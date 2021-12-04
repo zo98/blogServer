@@ -13,9 +13,15 @@ module.exports = {
    */
   replaceImgPathToName(path) {
     if (!path) {
-      return '';
+      return "";
     }
     const reg = new RegExp(`/${configPath.source}/`);
     return path.replace(reg, "");
+  },
+  replaceNameToPath(name) {
+    if (name) {
+      return `/${configPath.source}/${name}`;
+    }
+    return "";
   },
 };

@@ -11,7 +11,7 @@ const indexRouter = require("./router/indexRouter");
 const systemRouter = require("./router/systemRouter");
 const staticServer = require("koa-static");
 const { verifyToken } = require("./utils/verifyToken");
-// require("./auto_service/index");
+require("./auto_service/index");
 // 跨域
 // app.use(cors());
 

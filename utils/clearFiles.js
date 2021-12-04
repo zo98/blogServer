@@ -1,6 +1,9 @@
 const fs = require("fs");
+const { join } = require("path");
+const { readFile } = require("fs/promises");
 const query = require("../db/index");
 const { configPath } = require("../config/index");
+const reg = new RegExp(`/${configPath.source}/`);
 // SELECT cover FROM classify UNION SELECT imgs FROM article
 module.exports = {
   clearImgs() {
@@ -11,37 +14,59 @@ module.exports = {
       });
     });
 
-    const db = query("SELECT cover FROM classify UNION SELECT imgs FROM article");
+    const db = query(
+      "SELECT cover FROM classify UNION SELECT imgs FROM article"
+    );
 
-    Promise.all([files, db]).then(([res1, res2]) => {
-      let [err1, files] = res1;
-      let [err2, data] = res2;
-      // if (!err1 && !err2) {
-      //   let temp = [];
-      //   data.forEach((item) => {
-      //     if (item.imgs) {
-      //       try {
-      //         temp.push(JSON.parse(item.imgs));
-      //       } catch (error) {}
-      //     }
-      //   });
-      //   data = temp.flat(2);
-      //   let a = 0;
-      //   files.forEach((item,index) => {
-      //     console.log(`检查文件：${index+1}/${data.length}`);
-      //     if (!data.includes(item)) {
-      //       fs.unlink(`./${configPath.img}/${item}`, (err) => {
-      //         if (err) {
-      //           console.log(err);
-      //         } else {
-      //           console.log(`已删除 ${configPath.img}/${item}`);
-      //         }
-      //       });
-      //     }
-      //   });
-
-      //   console.log('清理文件完成');
-      // }
+    const system = readFile(join(__dirname, "../config/blog_config.json"), {
+      encoding: "utf-8",
     });
+
+    Promise.all([files, db, system])
+      .then(([res1, res2, res3]) => {
+        let [err1, files] = res1;
+        let [err2, data] = res2;
+        let systemData = JSON.parse(res3);
+        // console.log(files, data, systemData);
+        data = data.map((item) => {
+          if (/\[(.*?)\]/.test(item.cover)) {
+            return JSON.parse(item.cover);
+          }
+
+          return item.cover.replace(reg, "");
+        });
+
+        data = data.flat(1);
+        if (systemData.blog.favicon) {
+          const src = systemData.blog.favicon;
+          const img = src.replace(reg, "");
+          data.push(img);
+        }
+        if (systemData.blog.profile) {
+          const src = systemData.blog.profile;
+          const img = src.replace(reg, "");
+          data.push(img);
+        }
+        console.log(data);
+        if (!err1 && !err2) {
+          files.forEach((item, index) => {
+            console.log(`检查文件：${index + 1}/${data.length}`);
+            if (!data.includes(item)) {
+              fs.unlink(`./${configPath.img}/${item}`, (err) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log(`已删除 ${configPath.img}/${item}`);
+                }
+              });
+            }
+          });
+
+          console.log("清理文件完成");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };

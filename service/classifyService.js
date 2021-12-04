@@ -4,7 +4,12 @@ const {
   deleteClassify,
   getHotClassify,
 } = require("../dao/classifyDao");
-const { isValid, replaceImgPathToName } = require("../utils/index");
+const {
+  isValid,
+  replaceImgPathToName,
+  replaceNameToPath,
+} = require("../utils/index");
+
 module.exports = {
   async getClassify(params = {}) {
     params = {
@@ -36,12 +41,12 @@ module.exports = {
   },
   async updateClassify(params) {
     let { id, name, cover } = params;
-    // 替换
-    params.cover = replaceImgPathToName(cover);
 
     if (isValid(id) && isValid(name)) {
       // 修改
       const [err, res] = await updateClassify(params);
+      console.log(err, res);
+
       if (!err && res.affectedRows) {
         return { code: 1, msg: "update success" };
       } else {
@@ -83,7 +88,7 @@ module.exports = {
     pageSize = Number(pageSize);
     const offset = (currentPage - 1) * pageSize;
     try {
-      const [err, records] = await getHotClassify({ offset, pageSize });
+      let [err, records] = await getHotClassify({ offset, pageSize });
       if (!err) {
         return { code: 1, data: { records }, msg: "success" };
       } else {
